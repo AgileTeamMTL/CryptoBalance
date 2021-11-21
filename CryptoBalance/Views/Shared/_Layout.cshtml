@@ -16,13 +16,28 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                @Html.ActionLink("Crypto Balance", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
             </div>
-            <div class="navbar-collapse collapse">
+            <span class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li>@Html.ActionLink("About", "About", "Home")</li>
-                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+                    <li>@Html.ActionLink("All Coins", "About", "Home")</li>
+                    <li>@Html.ActionLink("News", "Contact", "Home")</li>
+                    @{
+                        HttpCookie cookie = Request.Cookies["AuthCookie"];
+                        if (cookie == null)
+                        {
+                            <li>@Html.ActionLink("Sign In", "SignIn", "users")</li>
+                            <li>@Html.ActionLink("Sign up", "Create", "users")</li>
+                        }
+                        else
+                        {
+                            <li>@Html.ActionLink("Dashboard", "Contact", "Home")</li>
+                            <li>@Html.ActionLink("Logout", "Logout", "users")</li>
+                        }
+                    }}
+                    
+
                 </ul>
             </div>
         </div>
