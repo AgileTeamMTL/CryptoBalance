@@ -12,6 +12,8 @@ namespace CryptoBalance
         public static void RegisterRoutes(RouteCollection routes)
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
+            routes.IgnoreRoute("users/Edit");
+            routes.IgnoreRoute("users/Details");
 
             routes.MapRoute(
                 name: "Default",
