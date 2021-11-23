@@ -26,5 +26,6 @@ namespace CryptoBalance
         }
     
         public virtual DbSet<user> users { get; set; }
+        public virtual DbSet<transaction> transactions { get; set; }
     }
 }

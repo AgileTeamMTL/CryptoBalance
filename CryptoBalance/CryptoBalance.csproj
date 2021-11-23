@@ -55,6 +55,9 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http.Formatting, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.7\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
     <Reference Include="System.Web.DynamicData" />
@@ -129,6 +132,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\transactionsController.cs" />
     <Compile Include="Controllers\usersController.cs" />
     <Compile Include="db_model.Context.cs">
       <AutoGen>True</AutoGen>
@@ -150,7 +154,11 @@
     </Compile>
     <Compile Include="Models\Demo.cs" />
     <Compile Include="Models\Providers\Hitbtc.cs" />
+    <Compile Include="Models\TransactionModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="transaction.cs">
+      <DependentUpon>db_model.tt</DependentUpon>
+    </Compile>
     <Compile Include="user.cs">
       <DependentUpon>db_model.tt</DependentUpon>
     </Compile>
@@ -173,6 +181,11 @@
     <Content Include="Content\bootstrap.rtl.css" />
     <Content Include="Content\bootstrap.rtl.min.css" />
     <Content Include="Content\Images\img_Home.png" />
+    <Content Include="Content\Images\logo_ada.png" />
+    <Content Include="Content\Images\logo_btc.png" />
+    <Content Include="Content\Images\logo_eth.png" />
+    <Content Include="Content\Images\logo_sol.png" />
+    <Content Include="Content\Images\logo_xrp.png" />
     <Content Include="db_model.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>db_model.edmx</DependentUpon>
@@ -252,6 +265,12 @@
     <Content Include="Views\users\Edit.cshtml" />
     <Content Include="Views\users\Index.cshtml" />
     <Content Include="Views\users\SignIn.cshtml" />
+    <Content Include="Views\Home\Dashboard.cshtml" />
+    <Content Include="Views\transactions\Create.cshtml" />
+    <Content Include="Views\transactions\Delete.cshtml" />
+    <Content Include="Views\transactions\Details.cshtml" />
+    <Content Include="Views\transactions\Edit.cshtml" />
+    <Content Include="Views\transactions\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -4,9 +4,12 @@ using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using CryptoBalance;
+using CryptoBalance.Models;
+using CryptoBalance.Models.Providers;
 
 namespace CryptoBalance.Controllers
 {
@@ -162,7 +165,7 @@ namespace CryptoBalance.Controllers
                     cookie.Path = Request.ApplicationPath;
                     Response.Cookies.Add(cookie);
 
-                    return Redirect("/Home/Index");
+                    return Redirect("/Home/Dashboard");
                 }
                 else
                 {
@@ -185,5 +188,6 @@ namespace CryptoBalance.Controllers
             //Check here
             return Redirect("/users/SignIn");
         }
+        
     }
 }
