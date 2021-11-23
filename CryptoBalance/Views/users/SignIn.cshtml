@@ -42,13 +42,17 @@
                 </div>
                 <br />
                 <div class="text-center">
-                    <input type="submit" value="Login" class="btn btn-primary w-100" formaction="/users/SignIn"/>
+                    <input type="submit" value="Login" class="btn btn-primary w-100" formaction="/users/SignIn" />
                     <br />
                     <p><a href="#">Forgot Password?</a></p>
                 </div>
                 <hr />
                 <div class="text-center">
                     @Html.ActionLink("Create New Account", "Create", "users", null, new { @class = "btn btn-primary w-75 bg-success text-decoration-none" })
+                </div>
+                <br />
+                <div class="text-center">
+                    @Html.ActionLink("Check API Response", "APITest", "users", null, new { @class = "btn btn-primary w-75 bg-success text-decoration-none" })
                 </div>
             </form>
 
