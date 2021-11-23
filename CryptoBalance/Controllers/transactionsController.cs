@@ -17,22 +17,21 @@ namespace CryptoBalance.Controllers
         // GET: transactions
         public ActionResult Index()
         {
-            HttpCookie cookie = Request.Cookies["AuthCookie"];
-            var getTransactions = from tr in db.transactions
-                                  where tr.username == cookie.Value
-                                  select tr;
-            //ViewBag.getTransactions = getTransactions;
-            if (getTransactions == null)
+            try
             {
-                return View();
-
-            }
-            else {
+                HttpCookie cookie = Request.Cookies["AuthCookie"];
+                var getTransactions = from tr in db.transactions
+                                      where tr.username == cookie.Value
+                                      select tr;
 
                 return View(getTransactions.ToList());
-
             }
-            
+            catch (Exception e) {
+                return Content("No Data");
+            }
+
+
+
         }
 
         // GET: transactions/Details/5
@@ -67,7 +66,8 @@ namespace CryptoBalance.Controllers
             if (ModelState.IsValid)
             {
                 transaction.username = cookie.Value;
-                transaction.cryto_total = (Convert.ToDouble(transaction.amount) / Convert.ToDouble(transaction.market_price));
+                Double crypto_total = (Convert.ToDouble(transaction.amount) / Convert.ToDouble(transaction.market_price));
+                transaction.cryto_total = Math.Round(crypto_total, 4);
                 db.transactions.Add(transaction);
                 db.SaveChanges();
                 //return View(transaction);

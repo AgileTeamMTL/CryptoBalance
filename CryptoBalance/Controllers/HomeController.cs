@@ -22,8 +22,27 @@ namespace CryptoBalance.Controllers
         {
             return View();
         }
-        public ActionResult AllCoins()
+        public async Task<ActionResult> AllCoins()
         {
+            TransactionModel bitcoin = await Hitbtc.ShowCrypto("BTC", "USDT");
+            TransactionModel etherium = await Hitbtc.ShowCrypto("ETH", "USDT");
+            TransactionModel solana = await Hitbtc.ShowCrypto("SOL", "USDT");
+            TransactionModel cardano = await Hitbtc.ShowCrypto("ADA", "USDT");
+            TransactionModel xrp = await Hitbtc.ShowCrypto("XRP", "USDT");
+
+            List<string> prices = new List<string>();
+            prices.Add(bitcoin.Price);
+            prices.Add(etherium.Price);
+            prices.Add(solana.Price);
+            prices.Add(cardano.Price);
+            prices.Add(xrp.Price);
+
+            ViewBag.btc = prices[0];
+            ViewBag.eth = prices[1];
+            ViewBag.sol = prices[2];
+            ViewBag.ada = prices[3];
+            ViewBag.xrp = prices[4];
+
             return View();
         }
 
@@ -79,8 +98,6 @@ namespace CryptoBalance.Controllers
             ViewBag.sol = prices[2];
             ViewBag.ada = prices[3];
             ViewBag.xrp = prices[4];
-
-            ViewBag.db = db.transactions.ToList();
 
             return View();
         }

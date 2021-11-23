@@ -273,7 +273,7 @@
     <Content Include="Views\transactions\Details.cshtml" />
     <Content Include="Views\transactions\Edit.cshtml" />
     <Content Include="Views\transactions\Index.cshtml" />
-    <Content Include="Views\Shared\_PartialTableTransactions.cshtml" />
+    <Content Include="Views\Shared\_PartialNavBar.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

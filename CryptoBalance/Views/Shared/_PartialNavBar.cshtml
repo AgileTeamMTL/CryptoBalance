@@ -1,0 +1,26 @@
+﻿<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+        @Html.ActionLink("Crypto Balance", "AllCoins", "Home", null, new { @class = "navbar-brand text-light" })
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    @Html.ActionLink("All Coins", "AllCoins", "Home", null, new { @class = "nav-link active text-light" })
+                </li>
+                <li class="nav-item">
+                    @Html.ActionLink("Dashboard", "Dashboard", "Home", null, new { @class = "nav-link active text-light" })
+                </li>
+                <li class="nav-item">
+                    @Html.ActionLink("News", "Contact", "Home", null, new { @class = "nav-link active text-light" })
+                </li>
+            </ul>
+        </div>
+        @{HttpCookie cookie = Request.Cookies["AuthCookie"];
+            string name = cookie.Value;}
+
+        @Html.ActionLink("Logout", "Logout", "users", null, new { @class = "nav-link active text-light" })
+        <span class="nav-text text-light">Hello @name</span>
+    </div>
+</nav>

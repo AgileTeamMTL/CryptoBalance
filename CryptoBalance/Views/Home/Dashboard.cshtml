@@ -40,7 +40,7 @@
 
                     <br />
 
-                    @Html.LabelFor(model => model.market_price, htmlAttributes: new { @class = "control-label" })
+                    @Html.LabelFor(model => model.market_price,"Market Price", htmlAttributes: new { @class = "control-label" })
                     @Html.EditorFor(model => model.market_price, new { htmlAttributes = new { @class = "form-control w-50 text-center" } })
                     @Html.ValidationMessageFor(model => model.market_price, "", new { @class = "text-danger" })
                     <br />
@@ -50,67 +50,11 @@
         </div>
         <br />
         <div class="bg-white border border-3 p-4 ">
+            <h4 class="text-center p-1">My Transactions</h4>
+            <hr/>
             @{
                 Html.RenderAction("Index", "transactions");
-                        @Html.LabelFor(model => model.username, htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-10">
-                            @Html.HiddenFor(model => model.username, new { htmlAttributes = new { @class = "form-control"} })
-                            @Html.ValidationMessageFor(model => model.username, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        @Html.LabelFor(model => model.transaction_id, htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-10">
-                            @Html.EditorFor(model => model.transaction_id, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model.transaction_id, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        @Html.LabelFor(model => model.crypto_coin, htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-10">
-                            @Html.EditorFor(model => model.crypto_coin, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model.crypto_coin, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        @Html.LabelFor(model => model.market_price, htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-10">
-                            @Html.EditorFor(model => model.market_price, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model.market_price, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        @Html.LabelFor(model => model.amount, htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-10">
-                            @Html.EditorFor(model => model.amount, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model.amount, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        @Html.LabelFor(model => model.cryto_total, htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-10">
-                            @Html.EditorFor(model => model.cryto_total, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model.cryto_total, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <div class="col-md-offset-2 col-md-10">
-                            <input type="submit" value="Create" class="btn btn-default" />
-                        </div>
-                    </div>
-                </div>
-            }
-
-            <div>
-                @Html.ActionLink("Back to List", "Index")
-            </div>
-
+           }
         </div>
     </div>
     <div class="col-sm-6 p-2 align-middle">
@@ -119,11 +63,32 @@
                 <h2 class="text-start p-3 text-success">Balance</h2>
             </div>
             <div class="col-sm-6">
-                <h2 class="text-end p-3">**** USD</h2>
+                @{
+                    Double totalBTC = Convert.ToDouble(TempData["totalBTC"]);
+                    Double totalFiat = Convert.ToDouble(TempData["totalFiat"]);
+                    Double currentPriceBTC = Convert.ToDouble(ViewBag.btc);
+
+                    Double balance = totalBTC * currentPriceBTC;
+                    Double rate = ((balance - totalFiat)/(totalFiat))*100;
+                    rate = Math.Round(rate, 2);
+                    balance = Math.Round(balance,2);
+                }
+
+                @{
+
+                    if(rate > 0){
+
+                        <h4 class="text-end p-3">@balance USD <span class="text-success">+@rate %</span></h4>
+                    }else{
+                        <h4 class="text-end p-3">@balance USD <span class="text-danger">@rate %</span></h4>
+                    }
+
+                }
+
             </div>
         </div>
         <br />
-        <div class="bg-white border border-3 p-4 ">
+        <div class="row bg-white border border-3 p-3">
             <table class="table">
                 <thead>
                     <tr>

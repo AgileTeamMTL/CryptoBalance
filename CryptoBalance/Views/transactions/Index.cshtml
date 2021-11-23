@@ -8,35 +8,51 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.crypto_coin)
+            Crypto Coin
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.market_price)
+            Market Price
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.amount)
+            Amount
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.cryto_total)
+           Total Coins
         </th>
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.crypto_coin)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.market_price)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.amount)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.cryto_total)
-        </td>
-    </tr>
-}
+    @foreach (var item in Model)
+    {
+<tr>
+    <td>
+        @Html.DisplayFor(modelItem => item.crypto_coin)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.market_price)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.amount)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.cryto_total)
+    </td>
+</tr>
+   }
+
+    @{ 
+        Double sumBTC = 0;
+        Double sumFiat = 0;
+
+            foreach (var item in Model)
+            {
+                sumBTC += Convert.ToDouble(item.cryto_total);
+                sumFiat += Convert.ToDouble(item.amount);
+            }
+            TempData["totalBTC"] = sumBTC;
+            TempData["totalFiat"] = sumFiat;
+            TempData.Keep();
+
+        }
 
 </table>
