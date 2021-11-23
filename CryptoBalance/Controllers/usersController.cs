@@ -4,9 +4,12 @@ using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using CryptoBalance;
+using CryptoBalance.Models;
+using CryptoBalance.Models.Providers;
 
 namespace CryptoBalance.Controllers
 {
@@ -184,6 +187,27 @@ namespace CryptoBalance.Controllers
             }
             //Check here
             return Redirect("/users/SignIn");
+        }
+        public async Task<ActionResult> APITest()
+        {
+            Transaction bitcoin = await Hitbtc.ShowCrypto("BTC", "USDT");
+            Transaction etherium = await Hitbtc.ShowCrypto("ETH", "USDT");
+            Transaction solana = await Hitbtc.ShowCrypto("SOL", "USDT");
+            Transaction cardano = await Hitbtc.ShowCrypto("ADA", "USDT");
+            Transaction xrp = await Hitbtc.ShowCrypto("XRP", "USDT");
+
+            List<string> prices = new List<string>();
+            prices.Add(bitcoin.Price);
+            prices.Add(etherium.Price);
+            prices.Add(solana.Price);
+            prices.Add(cardano.Price);
+            prices.Add(xrp.Price);
+
+            return Content(prices.ToString());
+            //Transaction transaction = await Hitbtc.ShowCrypto();
+            //return Content(transaction.Price);
+
+            
         }
     }
 }
