@@ -1,8 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.Entity;
 using System.Linq;
+using System.Net;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using CryptoBalance;
+using CryptoBalance.Models;
+using CryptoBalance.Models.Providers;
 
 namespace CryptoBalance.Controllers
 {
@@ -27,8 +34,21 @@ namespace CryptoBalance.Controllers
             return View();
         }
 
-        public ActionResult Dashboard()
+        public async Task<ActionResult> Dashboard()
         {
+            Transaction bitcoin = await Hitbtc.ShowCrypto("BTC", "USDT");
+            Transaction etherium = await Hitbtc.ShowCrypto("ETH", "USDT");
+            Transaction solana = await Hitbtc.ShowCrypto("SOL", "USDT");
+            Transaction cardano = await Hitbtc.ShowCrypto("ADA", "USDT");
+            Transaction xrp = await Hitbtc.ShowCrypto("XRP", "USDT");
+
+            List<string> prices = new List<string>();
+            prices.Add(bitcoin.Price);
+            prices.Add(etherium.Price);
+            prices.Add(solana.Price);
+            prices.Add(cardano.Price);
+            prices.Add(xrp.Price);
+
             //Currency List
             List<SelectListItem> itemsFiat = new List<SelectListItem>();
             itemsFiat.Add(new SelectListItem { Text = "USD", Value = "0", Selected = true });
@@ -43,11 +63,18 @@ namespace CryptoBalance.Controllers
             itemsCrypto.Add(new SelectListItem { Text = "ETH", Value = "1" });
             itemsCrypto.Add(new SelectListItem { Text = "ADA", Value = "2" });
             itemsCrypto.Add(new SelectListItem { Text = "SOL", Value = "3" });
-            itemsCrypto.Add(new SelectListItem { Text = "CRO", Value = "4" });
+            itemsCrypto.Add(new SelectListItem { Text = "XRP", Value = "4" });
 
             ViewBag.CryptoCurrencies = itemsCrypto;
 
+            ViewBag.btc = prices[0];
+            ViewBag.eth = prices[1];
+            ViewBag.sol = prices[2];
+            ViewBag.ada = prices[3];
+            ViewBag.xrp = prices[4];
+
             return View();
         }
+
     }
 }
