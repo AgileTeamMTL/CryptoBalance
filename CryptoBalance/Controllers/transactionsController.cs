@@ -17,7 +17,22 @@ namespace CryptoBalance.Controllers
         // GET: transactions
         public ActionResult Index()
         {
-            return View(db.transactions.ToList());
+            HttpCookie cookie = Request.Cookies["AuthCookie"];
+            var getTransactions = from tr in db.transactions
+                                  where tr.username == cookie.Value
+                                  select tr;
+            //ViewBag.getTransactions = getTransactions;
+            if (getTransactions == null)
+            {
+                return View();
+
+            }
+            else {
+
+                return View(getTransactions.ToList());
+
+            }
+            
         }
 
         // GET: transactions/Details/5
@@ -46,18 +61,21 @@ namespace CryptoBalance.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "transaction_id,crypto_coin,market_price,amount,cryto_total")] transaction transaction)
+        public ActionResult Create([Bind(Include = "transaction_id,crypto_coin,market_price,amount")] transaction transaction)
         {
             HttpCookie cookie = Request.Cookies["AuthCookie"];
             if (ModelState.IsValid)
             {
                 transaction.username = cookie.Value;
+                transaction.cryto_total = (Convert.ToDouble(transaction.amount) / Convert.ToDouble(transaction.market_price));
                 db.transactions.Add(transaction);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                //return View(transaction);
+                return RedirectToAction("Dashboard", "Home", transaction);
             }
 
-            return View(transaction);
+            //return View(transaction);
+            return RedirectToAction("Dashboard", "Home", transaction);
         }
 
         // GET: transactions/Edit/5

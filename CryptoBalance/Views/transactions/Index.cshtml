@@ -2,18 +2,11 @@
 
 @{
     ViewBag.Title = "Index";
+    Layout = null;
 }
 
-<h2>Index</h2>
-
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
 <table class="table">
     <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.username)
-        </th>
         <th>
             @Html.DisplayNameFor(model => model.crypto_coin)
         </th>
@@ -32,9 +25,6 @@
 @foreach (var item in Model) {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.username)
-        </td>
-        <td>
             @Html.DisplayFor(modelItem => item.crypto_coin)
         </td>
         <td>
@@ -45,11 +35,6 @@
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.cryto_total)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.transaction_id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.transaction_id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.transaction_id })
         </td>
     </tr>
 }

@@ -15,6 +15,9 @@ namespace CryptoBalance.Controllers
 {
     public class HomeController : Controller
     {
+
+        private db_cryptoBalanceEntities1 db = new db_cryptoBalanceEntities1();
+
         public ActionResult Index()
         {
             return View();
@@ -63,11 +66,11 @@ namespace CryptoBalance.Controllers
 
             //Crypto currency coins
             List<SelectListItem> itemsCrypto = new List<SelectListItem>();
-            itemsCrypto.Add(new SelectListItem { Text = "BTC", Value = "0", Selected = true });
-            itemsCrypto.Add(new SelectListItem { Text = "ETH", Value = "1" });
-            itemsCrypto.Add(new SelectListItem { Text = "ADA", Value = "2" });
-            itemsCrypto.Add(new SelectListItem { Text = "SOL", Value = "3" });
-            itemsCrypto.Add(new SelectListItem { Text = "XRP", Value = "4" });
+            itemsCrypto.Add(new SelectListItem { Text = "BTC", Value = "BTC", Selected = true });
+            itemsCrypto.Add(new SelectListItem { Text = "ETH", Value = "ETH" });
+            itemsCrypto.Add(new SelectListItem { Text = "ADA", Value = "ADA" });
+            itemsCrypto.Add(new SelectListItem { Text = "SOL", Value = "SOL" });
+            itemsCrypto.Add(new SelectListItem { Text = "XRP", Value = "XRP" });
 
             ViewBag.CryptoCurrencies = itemsCrypto;
 
@@ -76,6 +79,8 @@ namespace CryptoBalance.Controllers
             ViewBag.sol = prices[2];
             ViewBag.ada = prices[3];
             ViewBag.xrp = prices[4];
+
+            ViewBag.db = db.transactions.ToList();
 
             return View();
         }

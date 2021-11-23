@@ -1,106 +1,58 @@
 ﻿@model CryptoBalance.transaction
+
 @{
     ViewBag.Title = "Dashboard";
+
+    List<SelectListItem> itemsCrypto = new List<SelectListItem>();
+    itemsCrypto = ViewBag.CryptoCurrencies;
+
+
 }
 
 
 <div class="row">
     <div class="col-sm-6 p-2 align-middle">
         <div class="bg-white border border-3 p-4 ">
-            <form class="row">
+            @using (Html.BeginForm("Create", "transactions", FormMethod.Post, new { @class = "row" }))
+            {
+                @Html.AntiForgeryToken()
+
                 <div class="col-sm-6 ps-5">
                     @Html.Label("From")
                     <br />
                     @Html.DropDownList("FiatCurrencies", null, new { @class = "form-control w-50 text-center" })
                     <br />
-                    @Html.Label("To", new { @class = "pt-3" })
+                    @Html.LabelFor(model => model.crypto_coin, "To", new { @class = "pt-3" })
                     <br />
-                    @Html.DropDownList("CryptoCurrencies", null, new { @class = "form-control w-50 text-center" })
+                    @Html.DropDownListFor(model => model.crypto_coin, itemsCrypto, new { @class = "form-control w-50 text-center" })
+                    @Html.ValidationMessageFor(model => model.crypto_coin, "", new { @class = "text-danger" })
                 </div>
                 <div class="col-sm-6">
-                    @Html.Label("Amount")
-                    @Html.TextBox("amount", null, new { @class = "form-control w-50 text-center" })
+
+                    @Html.LabelFor(model => model.transaction_id, "Transaction ID", htmlAttributes: new { @class = "control-label" })
+                    @Html.EditorFor(model => model.transaction_id, new { htmlAttributes = new { @class = "form-control w-50 text-center" } })
+                    @Html.ValidationMessageFor(model => model.transaction_id, "", new { @class = "text-danger" })
+
                     <br />
-                    @Html.Label("Price")
-                    @Html.TextBox("coinPrice", null, new { @class = "form-control w-50 text-center" })
+                    @Html.LabelFor(model => model.amount, "Amount", htmlAttributes: new { @class = "control-label col-md-2" })
+                    @Html.EditorFor(model => model.amount, new { htmlAttributes = new { @class = "form-control w-50 text-center" } })
+                    @Html.ValidationMessageFor(model => model.amount, "", new { @class = "text-danger" })
+
                     <br />
-                    @Html.Label("Total")
-                    @Html.Label("*** CAD")
+
+                    @Html.LabelFor(model => model.market_price, htmlAttributes: new { @class = "control-label" })
+                    @Html.EditorFor(model => model.market_price, new { htmlAttributes = new { @class = "form-control w-50 text-center" } })
+                    @Html.ValidationMessageFor(model => model.market_price, "", new { @class = "text-danger" })
                     <br />
                     <input type="submit" value="Add Transaction" class="btn btn-primary w-100 rounded-pill mt-4" />
                 </div>
-            </form>
+            }
         </div>
         <br />
         <div class="bg-white border border-3 p-4 ">
-            @using (Html.BeginForm("Create","transactions",FormMethod.Post))
-            {
-                @Html.AntiForgeryToken()
-
-                <div class="form-horizontal">
-                    <h4>transaction</h4>
-                    <hr />
-                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                    <div class="form-group">
-                        @Html.LabelFor(model => model.username, htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-10">
-                            @Html.HiddenFor(model => model.username, new { htmlAttributes = new { @class = "form-control"} })
-                            @Html.ValidationMessageFor(model => model.username, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        @Html.LabelFor(model => model.transaction_id, htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-10">
-                            @Html.EditorFor(model => model.transaction_id, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model.transaction_id, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        @Html.LabelFor(model => model.crypto_coin, htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-10">
-                            @Html.EditorFor(model => model.crypto_coin, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model.crypto_coin, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        @Html.LabelFor(model => model.market_price, htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-10">
-                            @Html.EditorFor(model => model.market_price, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model.market_price, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        @Html.LabelFor(model => model.amount, htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-10">
-                            @Html.EditorFor(model => model.amount, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model.amount, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        @Html.LabelFor(model => model.cryto_total, htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-10">
-                            @Html.EditorFor(model => model.cryto_total, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model.cryto_total, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <div class="col-md-offset-2 col-md-10">
-                            <input type="submit" value="Create" class="btn btn-default" />
-                        </div>
-                    </div>
-                </div>
+            @{
+                Html.RenderAction("Index", "transactions");
             }
-
-            <div>
-                @Html.ActionLink("Back to List", "Index")
-            </div>
-
         </div>
     </div>
     <div class="col-sm-6 p-2 align-middle">
