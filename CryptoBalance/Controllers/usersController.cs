@@ -183,7 +183,7 @@ namespace CryptoBalance.Controllers
                 Response.Cookies.Add(cookie);
             }
             //Check here
-            return Redirect("/Home/Index");
+            return Redirect("/users/SignIn");
         }
     }
 }
