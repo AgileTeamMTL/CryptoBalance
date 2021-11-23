@@ -46,10 +46,12 @@ namespace CryptoBalance.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "username,transaction_id,crypto_coin,market_price,amount,cryto_total")] transaction transaction)
+        public ActionResult Create([Bind(Include = "transaction_id,crypto_coin,market_price,amount,cryto_total")] transaction transaction)
         {
+            HttpCookie cookie = Request.Cookies["AuthCookie"];
             if (ModelState.IsValid)
             {
+                transaction.username = cookie.Value;
                 db.transactions.Add(transaction);
                 db.SaveChanges();
                 return RedirectToAction("Index");

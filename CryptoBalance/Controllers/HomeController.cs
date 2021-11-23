@@ -19,6 +19,10 @@ namespace CryptoBalance.Controllers
         {
             return View();
         }
+        public ActionResult AllCoins()
+        {
+            return View();
+        }
 
         public ActionResult About()
         {

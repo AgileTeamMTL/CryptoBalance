@@ -12,7 +12,7 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.transaction_id)
+            @Html.DisplayNameFor(model => model.username)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.crypto_coin)
@@ -32,7 +32,7 @@
 @foreach (var item in Model) {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.transaction_id)
+            @Html.DisplayFor(modelItem => item.username)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.crypto_coin)
@@ -47,9 +47,9 @@
             @Html.DisplayFor(modelItem => item.cryto_total)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.username }) |
-            @Html.ActionLink("Details", "Details", new { id=item.username }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.username })
+            @Html.ActionLink("Edit", "Edit", new { id=item.transaction_id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.transaction_id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.transaction_id })
         </td>
     </tr>
 }

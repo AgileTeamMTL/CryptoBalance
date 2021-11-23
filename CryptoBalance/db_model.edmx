@@ -7,7 +7,7 @@
     <Schema Namespace="db_cryptoBalanceModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="transactions">
           <Key>
-            <PropertyRef Name="username" />
+            <PropertyRef Name="transaction_id" />
           </Key>
           <Property Name="username" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="transaction_id" Type="nvarchar" MaxLength="50" Nullable="false" />
@@ -64,7 +64,7 @@
         </EntityContainer>
         <EntityType Name="transaction">
           <Key>
-            <PropertyRef Name="username" />
+            <PropertyRef Name="transaction_id" />
           </Key>
           <Property Name="username" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="transaction_id" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
@@ -77,26 +77,26 @@
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
-      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="db_cryptoBalanceModelStoreContainer" CdmEntityContainer="db_cryptoBalanceEntities1">
-          <EntitySetMapping Name="users">
-            <EntityTypeMapping TypeName="db_cryptoBalanceModel.user">
-              <MappingFragment StoreEntitySet="users">
-                <ScalarProperty Name="username" ColumnName="username" />
-                <ScalarProperty Name="password" ColumnName="password" />
-                <ScalarProperty Name="first_name" ColumnName="first_name" />
-                <ScalarProperty Name="last_name" ColumnName="last_name" />
-                <ScalarProperty Name="email" ColumnName="email" />
-                <ScalarProperty Name="phone" ColumnName="phone" />
-                <ScalarProperty Name="city" ColumnName="city" />
-                <ScalarProperty Name="province" ColumnName="province" />
-                <ScalarProperty Name="country" ColumnName="country" />
-                <ScalarProperty Name="date_of_birth" ColumnName="date_of_birth" />
-                <ScalarProperty Name="creation_date" ColumnName="creation_date" />
-                <ScalarProperty Name="modification_date" ColumnName="modification_date" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
+    <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="db_cryptoBalanceModelStoreContainer" CdmEntityContainer="db_cryptoBalanceEntities1">
+    <EntitySetMapping Name="users">
+      <EntityTypeMapping TypeName="IsTypeOf(db_cryptoBalanceModel.user)">
+        <MappingFragment StoreEntitySet="users">
+          <ScalarProperty Name="username" ColumnName="username" />
+          <ScalarProperty Name="password" ColumnName="password" />
+          <ScalarProperty Name="first_name" ColumnName="first_name" />
+          <ScalarProperty Name="last_name" ColumnName="last_name" />
+          <ScalarProperty Name="email" ColumnName="email" />
+          <ScalarProperty Name="phone" ColumnName="phone" />
+          <ScalarProperty Name="city" ColumnName="city" />
+          <ScalarProperty Name="province" ColumnName="province" />
+          <ScalarProperty Name="country" ColumnName="country" />
+          <ScalarProperty Name="date_of_birth" ColumnName="date_of_birth" />
+          <ScalarProperty Name="creation_date" ColumnName="creation_date" />
+          <ScalarProperty Name="modification_date" ColumnName="modification_date" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
           <EntitySetMapping Name="transactions">
             <EntityTypeMapping TypeName="db_cryptoBalanceModel.transaction">
               <MappingFragment StoreEntitySet="transactions">
@@ -109,9 +109,8 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-        </EntityContainerMapping>
-      </Mapping>
-    </edmx:Mappings>
+  </EntityContainerMapping>
+</Mapping></edmx:Mappings>
   </edmx:Runtime>
   <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
   <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
@@ -125,7 +124,7 @@
         <DesignerProperty Name="ValidateOnBuild" Value="true" />
         <DesignerProperty Name="EnablePluralization" Value="true" />
         <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
-        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="UseLegacyProvider" Value="False" />
         <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
       </DesignerInfoPropertySet>
     </Options>

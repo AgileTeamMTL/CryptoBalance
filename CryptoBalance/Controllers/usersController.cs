@@ -60,7 +60,7 @@ namespace CryptoBalance.Controllers
                 return Redirect("/Home/Index");
                 //return RedirectToAction("Index");
             }
-            return Redirect("/Home/Index");
+            return Redirect("/Users/SignIn");
             //return View(user);
         }
 

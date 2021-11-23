@@ -191,6 +191,7 @@
       <DependentUpon>db_model.edmx</DependentUpon>
       <LastGenOutput>db_model.Context.cs</LastGenOutput>
     </Content>
+    <Content Include="db_model.edmx.sql" />
     <Content Include="db_model.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>db_model.edmx</DependentUpon>
@@ -266,6 +267,7 @@
     <Content Include="Views\users\Index.cshtml" />
     <Content Include="Views\users\SignIn.cshtml" />
     <Content Include="Views\Home\Dashboard.cshtml" />
+    <Content Include="Views\Home\AllCoins.cshtml" />
     <Content Include="Views\transactions\Create.cshtml" />
     <Content Include="Views\transactions\Delete.cshtml" />
     <Content Include="Views\transactions\Details.cshtml" />
