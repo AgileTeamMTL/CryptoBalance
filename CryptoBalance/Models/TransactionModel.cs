@@ -5,7 +5,7 @@ using System.Web;
 
 namespace CryptoBalance.Models
 {
-    public class Transaction
+    public class TransactionModel
     {
         public string Price { get; set; }
         public DateTime Time_stamp { get; set; }

@@ -36,11 +36,11 @@ namespace CryptoBalance.Controllers
 
         public async Task<ActionResult> Dashboard()
         {
-            Transaction bitcoin = await Hitbtc.ShowCrypto("BTC", "USDT");
-            Transaction etherium = await Hitbtc.ShowCrypto("ETH", "USDT");
-            Transaction solana = await Hitbtc.ShowCrypto("SOL", "USDT");
-            Transaction cardano = await Hitbtc.ShowCrypto("ADA", "USDT");
-            Transaction xrp = await Hitbtc.ShowCrypto("XRP", "USDT");
+            TransactionModel bitcoin = await Hitbtc.ShowCrypto("BTC", "USDT");
+            TransactionModel etherium = await Hitbtc.ShowCrypto("ETH", "USDT");
+            TransactionModel solana = await Hitbtc.ShowCrypto("SOL", "USDT");
+            TransactionModel cardano = await Hitbtc.ShowCrypto("ADA", "USDT");
+            TransactionModel xrp = await Hitbtc.ShowCrypto("XRP", "USDT");
 
             List<string> prices = new List<string>();
             prices.Add(bitcoin.Price);

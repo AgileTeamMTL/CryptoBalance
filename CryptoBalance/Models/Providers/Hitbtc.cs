@@ -13,11 +13,11 @@ namespace CryptoBalance.Models.Providers
     public static class Hitbtc
     {
 
-        public static async Task<Transaction> ShowCrypto(String from_currency, String to_currency)
+        public static async Task<TransactionModel> ShowCrypto(String from_currency, String to_currency)
         {
             string crypto = await RunAsync(from_currency, to_currency);
             JavaScriptSerializer serializer = new JavaScriptSerializer();
-            Transaction transaction = serializer.Deserialize<Transaction>(crypto);
+            TransactionModel transaction = serializer.Deserialize<TransactionModel>(crypto);
             return transaction;
 
         }

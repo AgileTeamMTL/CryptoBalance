@@ -165,7 +165,7 @@ namespace CryptoBalance.Controllers
                     cookie.Path = Request.ApplicationPath;
                     Response.Cookies.Add(cookie);
 
-                    return Redirect("/Home/Index");
+                    return Redirect("/Home/Dashboard");
                 }
                 else
                 {

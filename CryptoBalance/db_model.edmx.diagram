@@ -6,6 +6,7 @@
     <edmx:Diagrams>
       <Diagram DiagramId="d5066597194b4a7fa0487a8d3f8c1e91" Name="Diagram1">
         <EntityTypeShape EntityType="db_cryptoBalanceModel.user" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_cryptoBalanceModel.transaction" Width="1.5" PointX="3.375" PointY="0.875" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
