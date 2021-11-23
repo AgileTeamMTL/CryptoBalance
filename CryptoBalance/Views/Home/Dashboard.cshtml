@@ -1,0 +1,95 @@
+﻿
+@{
+    ViewBag.Title = "Dashboard";
+}
+
+
+<div class="row">
+    <div class="col-sm-6 p-2 align-middle">
+        <div class="bg-white border border-3 p-4 ">
+            <form class="row">
+                <div class="col-sm-6 ps-5">
+                    @Html.Label("From")
+                    <br />
+                    @Html.DropDownList("FiatCurrencies", null , new { @class = "form-control w-50 text-center" })
+                    <br />
+                    @Html.Label("To", new { @class = "pt-3" })
+                    <br />
+                    @Html.DropDownList("CryptoCurrencies",null, new { @class = "form-control w-50 text-center" })
+                </div>
+                <div class="col-sm-6">
+                    @Html.Label("Amount")
+                    @Html.TextBox("amount", null, new { @class = "form-control w-50 text-center" })
+                    <br />
+                    @Html.Label("Price")
+                    @Html.TextBox("coinPrice", null, new { @class = "form-control w-50 text-center" })
+                    <br />
+                    @Html.Label("Total")
+                    @Html.Label("*** CAD")
+                    <br/>
+                    <input type="submit" value="Add Transaction" class="btn btn-primary w-100 rounded-pill mt-4" />
+                </div>
+            </form>
+        </div>
+        <br />
+        <div class="bg-white border border-3 p-4 ">
+
+
+        </div>
+    </div>
+    <div class="col-sm-6 p-2 align-middle">
+        <div class="row bg-white border border-3">
+            <div class="col-sm-6">
+                <h2 class="text-start p-3 text-success">Balance</h2>
+            </div>           
+            <div class="col-sm-6">
+                <h2 class="text-end p-3">**** USD</h2>
+            </div>
+        </div>
+        <br />
+        <div class="bg-white border border-3 p-4 ">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Price</th>
+                        <th scope="col">24h Change</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th scope="row">1</th>
+                        <td><img src="~/Content/Images/logo_btc.png" width="30" height="30" class="rounded-circle" /> Bitcoin <span class="fst-italic">BTC</span></td>
+                        <td>80.000 CAD</td>
+                        <td>%10.00</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">2</th>
+                        <td><img src="~/Content/Images/logo_eth.png" width="30" height="30" class="rounded-circle" /> Ethereum <span class="fst-italic">ETH</span></td>
+                        <td>4.000 CAD</td>
+                        <td>%10.00</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">1</th>
+                        <td><img src="~/Content/Images/logo_sol.png" width="30" height="30" class="rounded-circle" /> Solana <span class="fst-italic">Sol</span></td>
+                        <td>200 CAD</td>
+                        <td>%10.00</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">1</th>
+                        <td><img src="~/Content/Images/logo_ada.png" width="30" height="30" class="rounded-circle" /> Cardano <span class="fst-italic">ADA</span></td>
+                        <td>1.89 CAD</td>
+                        <td>%10.00</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">5</th>
+                        <td><img src="~/Content/Images/logo_xrp.png" width="30" height="30" class="rounded-circle" /> XRP Coin <span class="fst-italic">XRP</span></td>
+                        <td>0.98 CAD</td>
+                        <td>%10.00</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
