@@ -1,48 +1,53 @@
-﻿@model IEnumerable<CryptoBalance.transaction>
+﻿@model PagedList.IPagedList<CryptoBalance.transaction>
+
+@using PagedList.Mvc;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 
 @{
     ViewBag.Title = "Index";
-    Layout = null;
 }
+<div class="bg-white border border-3 p-4 ">
+    <h2 class="p-2 text-center">My Transactions</h2>
+    <hr />
+    <table class="table">
+        <tr>
+            <th>
+                @Html.ActionLink("Crypto Coin", "Index", new { sortOrder = ViewBag.NameSortParam, currentFilter = ViewBag.CurrentFilter })
+            </th>
+            <th>
+                @Html.ActionLink("Market Price", "Index", new { sortOrder = ViewBag.MarketPriceParam, currentFilter = ViewBag.CurrentFilter })
+            </th>
+            <th>
+                @Html.ActionLink("Amount", "Index", new { sortOrder = ViewBag.AmountParam, currentFilter = ViewBag.CurrentFilter })
 
-<table class="table">
-    <tr>
-        <th>
-            Crypto Coin
-        </th>
-        <th>
-            Market Price
-        </th>
-        <th>
-            Amount
-        </th>
-        <th>
-           Total Coins
-        </th>
-        <th></th>
-    </tr>
+            </th>
+            <th>
+                @Html.ActionLink("Total Coins", "Index", new { sortOrder = ViewBag.TotalCoinsParam, currentFilter = ViewBag.CurrentFilter })
+            </th>
+            <th></th>
+        </tr>
 
-    @foreach (var item in Model)
-    {
-<tr>
-    <td>
-        @Html.DisplayFor(modelItem => item.crypto_coin)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.market_price)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.amount)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.cryto_total)
-    </td>
-</tr>
-   }
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.crypto_coin)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.market_price)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.amount)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.cryto_total)
+                </td>
+            </tr>
+        }
 
-    @{ 
-        Double sumBTC = 0;
-        Double sumFiat = 0;
+        @{
+            Double sumBTC = 0;
+            Double sumFiat = 0;
 
             foreach (var item in Model)
             {
@@ -55,4 +60,11 @@
 
         }
 
-</table>
+    </table>
+
+    <br />
+    Page @(Model.PageCount <Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+    @Html.PagedListPager(Model, page => Url.Action("Index",
+        new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+</div>
+

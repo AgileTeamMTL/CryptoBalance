@@ -132,7 +132,15 @@ namespace CryptoBalance.Controllers
 
         public ActionResult SignIn()
         {
-            return View();
+            HttpCookie cookie = Request.Cookies["AuthCookie"];
+            if (cookie == null)
+            {
+                return View();
+            }
+            else
+            {
+                return Redirect("Home/Dashboard");
+            }
         }
 
         [HttpPost]
@@ -165,7 +173,7 @@ namespace CryptoBalance.Controllers
                     cookie.Path = Request.ApplicationPath;
                     Response.Cookies.Add(cookie);
 
-                    return Redirect("/Home/Dashboard");
+                    return Redirect("/transactions/Index");
                 }
                 else
                 {

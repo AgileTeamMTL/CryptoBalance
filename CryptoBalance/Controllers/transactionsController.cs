@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using CryptoBalance;
+using PagedList;
 
 namespace CryptoBalance.Controllers
 {
@@ -15,24 +16,73 @@ namespace CryptoBalance.Controllers
         private db_cryptoBalanceEntities1 db = new db_cryptoBalanceEntities1();
 
         // GET: transactions
-        public ActionResult Index()
+        public ActionResult Index(string sortOrder, string searchString, string currentFilter, int? page)
         {
-            try
+            ViewBag.currentSort = sortOrder;
+            ViewBag.NameSortParam = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            ViewBag.MarketPriceParam = sortOrder == "Market Price" ? "marketPrice_desc" : "Market Price";
+            ViewBag.AmountParam = sortOrder == "Amount" ? "amount_desc" : "Amount";
+            ViewBag.TotalCoinsParam = sortOrder == "Total Coins" ? "totalCoins_desc" : "Total Coins";
+
+            if (searchString != null)
             {
-                HttpCookie cookie = Request.Cookies["AuthCookie"];
-                var getTransactions = from tr in db.transactions
-                                      where tr.username == cookie.Value
-                                      select tr;
-
-                return View(getTransactions.ToList());
+                page = 1;
             }
-            catch (Exception e) {
-                return Content("No Data");
+            else
+            {
+                searchString = currentFilter;
             }
+            ViewBag.CurrentFilter = searchString;
+            
+            HttpCookie cookie = Request.Cookies["AuthCookie"];
+            var getTransactions = from tr in db.transactions
+                                    where tr.username == cookie.Value
+                                    select tr;
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                getTransactions = getTransactions.Where(l => l.transaction_id.Contains(searchString));
+            }
+            switch (sortOrder)
+            {
+                case "name_desc":
+                    getTransactions = getTransactions.OrderByDescending(tr => tr.crypto_coin);
+                    break;
+                case "marketPrice_desc":
+                    getTransactions = getTransactions.OrderByDescending(tr => tr.market_price);
+                    break;
+                case "Market Price":
+                    getTransactions = getTransactions.OrderBy(tr => tr.market_price);
+                    break;
+                case "amount_desc":
+                    getTransactions = getTransactions.OrderByDescending(tr => tr.amount);
+                    break;
+                case "Amount":
+                    getTransactions = getTransactions.OrderBy(tr => tr.amount);
+                    break;
+                case "totalCoins_desc":
+                    getTransactions = getTransactions.OrderByDescending(tr => tr.cryto_total);
+                    break;
+                case "Total Coins":
+                    getTransactions = getTransactions.OrderBy(tr => tr.cryto_total);
+                    break;
+                default:
+                    getTransactions = getTransactions.OrderBy(tr => tr.crypto_coin);
+                    break;
 
-
-
+            }
+            int pageSize = 5;
+            int pageNumber = (page ?? 1);
+            //return View(logs.ToList());
+            //getTransactions.ToPagedList(pageNumber, pageSize);
+            //return RedirectToAction("Dashboard","Home", getTransactions.ToPagedList(pageNumber, pageSize));
+            return View(getTransactions.ToPagedList(pageNumber, pageSize));
+            //return View(db.logs.ToList());
         }
+
+        //private ActionResult View(object p)
+        //{
+        //    throw new NotImplementedException();
+        //}
 
         // GET: transactions/Details/5
         public ActionResult Details(string id)
@@ -71,11 +121,11 @@ namespace CryptoBalance.Controllers
                 db.transactions.Add(transaction);
                 db.SaveChanges();
                 //return View(transaction);
-                return RedirectToAction("Dashboard", "Home", transaction);
+                return RedirectToAction("Index", "transactions", transaction);
             }
 
             //return View(transaction);
-            return RedirectToAction("Dashboard", "Home", transaction);
+            return RedirectToAction("Index", "transactions", transaction);
         }
 
         // GET: transactions/Edit/5
