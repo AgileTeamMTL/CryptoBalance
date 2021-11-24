@@ -6,25 +6,32 @@
 @{
     ViewBag.Title = "Index";
 }
-<div class="bg-white border border-3 p-4 ">
+<div class="bg-white border border-3 p-4 text-center">
     <h2 class="p-2 text-center">My Transactions</h2>
     <hr />
-    <table class="table">
+    <table class="table table-striped">
         <tr>
             <th>
-                @Html.ActionLink("Crypto Coin", "Index", new { sortOrder = ViewBag.NameSortParam, currentFilter = ViewBag.CurrentFilter })
+                @Html.ActionLink("Crypto Coin", "Index", 
+                            new { sortOrder = ViewBag.NameSortParam, currentFilter = ViewBag.CurrentFilter }, 
+                            new { @class = "text-decoration-none" })
             </th>
             <th>
-                @Html.ActionLink("Market Price", "Index", new { sortOrder = ViewBag.MarketPriceParam, currentFilter = ViewBag.CurrentFilter })
+                @Html.ActionLink("Market Price", "Index",
+                            new { sortOrder = ViewBag.MarketPriceParam, currentFilter = ViewBag.CurrentFilter },
+                            new { @class = "text-decoration-none" })
             </th>
             <th>
-                @Html.ActionLink("Amount", "Index", new { sortOrder = ViewBag.AmountParam, currentFilter = ViewBag.CurrentFilter })
+                @Html.ActionLink("Amount", "Index", 
+                            new { sortOrder = ViewBag.AmountParam, currentFilter = ViewBag.CurrentFilter },
+                            new { @class = "text-decoration-none" })
 
             </th>
             <th>
-                @Html.ActionLink("Total Coins", "Index", new { sortOrder = ViewBag.TotalCoinsParam, currentFilter = ViewBag.CurrentFilter })
+                @Html.ActionLink("Total Coins", "Index", 
+                            new { sortOrder = ViewBag.TotalCoinsParam, currentFilter = ViewBag.CurrentFilter },
+                            new { @class = "text-decoration-none" })
             </th>
-            <th></th>
         </tr>
 
         @foreach (var item in Model)
@@ -62,9 +69,11 @@
 
     </table>
 
-    <br />
-    Page @(Model.PageCount <Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
-    @Html.PagedListPager(Model, page => Url.Action("Index",
-        new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+    <hr />
+    <div class="text-center">
+        Page @(Model.PageCount <Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+        @Html.PagedListPager(Model, page => Url.Action("Index",
+            new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+    </div>
 </div>
 
