@@ -10,7 +10,7 @@
             <PropertyRef Name="transaction_id" />
           </Key>
           <Property Name="username" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="transaction_id" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="transaction_id" Type="nvarchar" MaxLength="255" Nullable="false" />
           <Property Name="crypto_coin" Type="nvarchar" MaxLength="10" Nullable="false" />
           <Property Name="market_price" Type="float" Nullable="false" />
           <Property Name="amount" Type="float" Nullable="false" />
@@ -67,7 +67,7 @@
             <PropertyRef Name="transaction_id" />
           </Key>
           <Property Name="username" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="transaction_id" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="transaction_id" Type="String" Nullable="false" MaxLength="255" Unicode="true" FixedLength="false" />
           <Property Name="crypto_coin" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
           <Property Name="market_price" Type="Double" Nullable="false" />
           <Property Name="amount" Type="Double" Nullable="false" />

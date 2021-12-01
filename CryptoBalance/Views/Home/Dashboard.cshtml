@@ -13,6 +13,8 @@
 <div class="row">
     <div class="col-sm-6 p-2 align-middle">
         <div class="bg-white border border-3 p-4 ">
+            <h2 class="p-2 text-center">Register a New Transaction</h2>
+            <hr />
             @using (Html.BeginForm("Create", "transactions", FormMethod.Post, new { @class = "row" }))
             {
                 @Html.AntiForgeryToken()
@@ -28,19 +30,11 @@
                     @Html.ValidationMessageFor(model => model.crypto_coin, "", new { @class = "text-danger" })
                 </div>
                 <div class="col-sm-6">
-
-                    @Html.LabelFor(model => model.transaction_id, "Transaction ID", htmlAttributes: new { @class = "control-label" })
-                    @Html.EditorFor(model => model.transaction_id, new { htmlAttributes = new { @class = "form-control w-50 text-center" } })
-                    @Html.ValidationMessageFor(model => model.transaction_id, "", new { @class = "text-danger" })
-
-                    <br />
-                    @Html.LabelFor(model => model.amount, "Amount", htmlAttributes: new { @class = "control-label col-md-2" })
+                    @Html.LabelFor(model => model.amount, "Amount (USD)", htmlAttributes: new { @class = "control-label col-md-2" })
                     @Html.EditorFor(model => model.amount, new { htmlAttributes = new { @class = "form-control w-50 text-center" } })
                     @Html.ValidationMessageFor(model => model.amount, "", new { @class = "text-danger" })
-
                     <br />
-
-                    @Html.LabelFor(model => model.market_price,"Market Price", htmlAttributes: new { @class = "control-label" })
+                    @Html.LabelFor(model => model.market_price, "Market Price (USD)", htmlAttributes: new { @class = "control-label" })
                     @Html.EditorFor(model => model.market_price, new { htmlAttributes = new { @class = "form-control w-50 text-center" } })
                     @Html.ValidationMessageFor(model => model.market_price, "", new { @class = "text-danger" })
                     <br />
@@ -49,7 +43,54 @@
             }
         </div>
         <br />
+        <div class="bg-white border border-3 p-4">
+            <h2 class="p-2 text-center">Last 10 Transactions</h2>
+            <hr />
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">Crypto Coin</th>
+                        <th scope="col">Market Price</th>
+                        <th scope="col">Amount</thscope="col">
+                        <th scope="col">Total Coins</thscope="col">
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        if (ViewBag.transactions != null)
+                        {
+                            int nbTransactions;
 
+                            if (ViewBag.transactions.Count > 10)
+                            {
+
+                                nbTransactions = 10;
+
+                            }
+                            else {
+
+                                nbTransactions = ViewBag.transactions.Count;
+                            }
+
+                            for (int i = 0; i < nbTransactions; i++)
+                            { @:<tr>
+                                    @:<td>@ViewBag.transactions[i].crypto_coin </td>
+                                    @:<td>@ViewBag.transactions[i].market_price</td>
+                                    @:<td>$ @ViewBag.transactions[i].amount </td>
+                                    @:<td>@ViewBag.transactions[i].cryto_total</td>
+                                @:</tr>
+                            }
+                        }
+                        else { 
+                        
+                            @:<tr><td colspan="4" class="text-center">There are no transaction</td></tr>
+                        
+                        }
+
+                    }
+                </tbody>
+            </table>
+        </div>
     </div>
     <div class="col-sm-6 p-2 align-middle">
         <div class="row bg-white border border-3">
@@ -57,24 +98,24 @@
                 <h2 class="text-start p-3 text-success">Balance</h2>
             </div>
             <div class="col-sm-6">
-                @{
-                    Double totalBTC = Convert.ToDouble(TempData["totalBTC"]);
-                    Double totalFiat = Convert.ToDouble(TempData["totalFiat"]);
-                    Double currentPriceBTC = Convert.ToDouble(ViewBag.btc);
-
-                    Double balance = totalBTC * currentPriceBTC;
-                    Double rate = ((balance - totalFiat)/(totalFiat))*100;
-                    rate = Math.Round(rate, 2);
-                    balance = Math.Round(balance,2);
-                }
 
                 @{
 
-                    if(rate > 0){
+                    if (ViewBag.rate > 0)
+                    {
 
-                        <h4 class="text-end p-3">@balance USD <span class="text-success">+@rate %</span></h4>
-                    }else{
-                        <h4 class="text-end p-3">@balance USD <span class="text-danger">@rate %</span></h4>
+                        <h4 class="text-end p-3">@ViewBag.balance USD <span class="text-success">+@ViewBag.rate %</span></h4>
+                    }
+                    else
+                    {
+                        if (ViewBag.rate == 0) { 
+                        
+                                <h4 class="text-end p-3">0.00 USD</h4>
+                        } else { 
+
+                                <h4 class="text-end p-3">@ViewBag.balance USD <span class="text-danger">@ViewBag.rate %</span></h4>
+                        }
+                        
                     }
 
                 }
@@ -82,47 +123,39 @@
             </div>
         </div>
         <br />
-        <div class="row bg-white border border-3 p-3">
-            <table class="table">
+        <div class="row bg-white border border-3 p-5">
+            <h2 class="p-2 text-center">Top 10 Crypto Currency</h2>
+            <hr />
+            <table class="table table-striped p-5">
                 <thead>
                     <tr>
                         <th scope="col">#</th>
-                        <th scope="col">Name</th>
-                        <th scope="col">Price</th>
-                        <th scope="col">24h Change</th>
+                        <th scope="col">Coin</th>
+                        <th scope="col">Symbol</thscope="col">
+                        <th scope="col">Price</thscope="col">
+                        <th scope="col">%24h</thscope="col">
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <th scope="row">1</th>
-                        <td><img src="~/Content/Images/logo_btc.png" width="30" height="30" class="rounded-circle" /> Bitcoin <span class="fst-italic">BTC</span></td>
-                        <td>@ViewBag.btc USD</td>
-                        <td>%10.00</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">2</th>
-                        <td><img src="~/Content/Images/logo_eth.png" width="30" height="30" class="rounded-circle" /> Ethereum <span class="fst-italic">ETH</span></td>
-                        <td>@ViewBag.eth USD</td>
-                        <td>%10.00</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">1</th>
-                        <td><img src="~/Content/Images/logo_sol.png" width="30" height="30" class="rounded-circle" /> Solana <span class="fst-italic">SOL</span></td>
-                        <td>@ViewBag.sol USD</td>
-                        <td>%10.00</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">1</th>
-                        <td><img src="~/Content/Images/logo_ada.png" width="30" height="30" class="rounded-circle" /> Cardano <span class="fst-italic">ADA</span></td>
-                        <td>@ViewBag.ada USD</td>
-                        <td>%10.00</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">5</th>
-                        <td><img src="~/Content/Images/logo_xrp.png" width="30" height="30" class="rounded-circle" /> XRP Coin <span class="fst-italic">XRP</span></td>
-                        <td>@ViewBag.xrp USD</td>
-                        <td>%10.00</td>
-                    </tr>
+                    @{
+                        for (int i = 0; i < ViewBag.listOfCoins.Count; i++)
+                        { @:<tr>
+                                @:<th scope="row">@ViewBag.listOfCoins[i].Rank</th>
+                                @:<td>@ViewBag.listOfCoins[i].Name</td>
+                                @:<td>@ViewBag.listOfCoins[i].Symbol</td>
+                                @:<td> $ @ViewBag.listOfCoins[i].CurrentPrice</td>
+                                if (ViewBag.listOfCoins[i].Change24h > 0)
+                                {
+                                    @:<td class="text-success"> % @ViewBag.listOfCoins[i].Change24h</td>
+                                }
+                                else
+                                {
+                                    @:<td class="text-danger"> % @ViewBag.listOfCoins[i].Change24h</td>
+                                }
+
+                            }
+                        @:</tr>
+                    }
                 </tbody>
             </table>
         </div>

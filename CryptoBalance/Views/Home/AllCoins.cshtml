@@ -1,51 +1,42 @@
 ﻿
 @{
     ViewBag.Title = "AllCoins";
+
 }
 
 <div class="bg-white border border-3 p-4 ">
     <h2 class="p-2 text-center">Market</h2>
     <hr />
-    <table class="table">
+    <table class="table table-striped p-5">
         <thead>
             <tr>
                 <th scope="col">#</th>
-                <th scope="col">Name</th>
-                <th scope="col">Price</th>
-                <th scope="col">24h Change</th>
+                <th scope="col">Coin</th>
+                <th scope="col">Symbol</thscope="col">
+                <th scope="col">Price</thscope="col">
+                <th scope="col">%24h</thscope="col">
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <th scope="row">1</th>
-                <td><img src="~/Content/Images/logo_btc.png" width="30" height="30" class="rounded-circle" /> Bitcoin <span class="fst-italic">BTC</span></td>
-                <td>@ViewBag.btc USD</td>
-                <td>%10.00</td>
-            </tr>
-            <tr>
-                <th scope="row">2</th>
-                <td><img src="~/Content/Images/logo_eth.png" width="30" height="30" class="rounded-circle" /> Ethereum <span class="fst-italic">ETH</span></td>
-                <td>@ViewBag.eth USD</td>
-                <td>%10.00</td>
-            </tr>
-            <tr>
-                <th scope="row">1</th>
-                <td><img src="~/Content/Images/logo_sol.png" width="30" height="30" class="rounded-circle" /> Solana <span class="fst-italic">SOL</span></td>
-                <td>@ViewBag.sol USD</td>
-                <td>%10.00</td>
-            </tr>
-            <tr>
-                <th scope="row">1</th>
-                <td><img src="~/Content/Images/logo_ada.png" width="30" height="30" class="rounded-circle" /> Cardano <span class="fst-italic">ADA</span></td>
-                <td>@ViewBag.ada USD</td>
-                <td>%10.00</td>
-            </tr>
-            <tr>
-                <th scope="row">5</th>
-                <td><img src="~/Content/Images/logo_xrp.png" width="30" height="30" class="rounded-circle" /> XRP Coin <span class="fst-italic">XRP</span></td>
-                <td>@ViewBag.xrp USD</td>
-                <td>%10.00</td>
-            </tr>
+            @{
+                for (int i = 0; i < Model.Count; i++)
+                { @:<tr>
+                        @:<th scope="row">@Model[i].Rank</th>
+                        @:<td>@Model[i].Name</td>
+                        @:<td>@Model[i].Symbol</td>
+                        @:<td> $ @Model[i].CurrentPrice</td>
+                        if (Model[i].Change24h > 0)
+                        {
+                            @:<td class="text-success"> % @Model[i].Change24h</td>
+                        }
+                        else
+                        {
+                            @:<td class="text-danger"> % @Model[i].Change24h</td>
+                        }
+
+                    }
+                @:</tr>
+            }
         </tbody>
     </table>
 </div>

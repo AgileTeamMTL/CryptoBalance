@@ -4,12 +4,14 @@ using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using CryptoBalance;
 using CryptoBalance.Models;
 using CryptoBalance.Models.Providers;
+using Newtonsoft.Json.Linq;
 
 namespace CryptoBalance.Controllers
 {
@@ -24,26 +26,12 @@ namespace CryptoBalance.Controllers
         }
         public async Task<ActionResult> AllCoins()
         {
-            TransactionModel bitcoin = await Hitbtc.ShowCrypto("BTC", "USDT");
-            TransactionModel etherium = await Hitbtc.ShowCrypto("ETH", "USDT");
-            TransactionModel solana = await Hitbtc.ShowCrypto("SOL", "USDT");
-            TransactionModel cardano = await Hitbtc.ShowCrypto("ADA", "USDT");
-            TransactionModel xrp = await Hitbtc.ShowCrypto("XRP", "USDT");
+            Provider provider = new Provider();
+            await provider.LoadDataAsync(100);
 
-            List<string> prices = new List<string>();
-            prices.Add(bitcoin.Price);
-            prices.Add(etherium.Price);
-            prices.Add(solana.Price);
-            prices.Add(cardano.Price);
-            prices.Add(xrp.Price);
+            List<CryptoCoin> listOfCoins = provider.ListOfCoins;
 
-            ViewBag.btc = prices[0];
-            ViewBag.eth = prices[1];
-            ViewBag.sol = prices[2];
-            ViewBag.ada = prices[3];
-            ViewBag.xrp = prices[4];
-
-            return View();
+            return View(listOfCoins);
         }
 
         public ActionResult About()
@@ -61,19 +49,19 @@ namespace CryptoBalance.Controllers
         }
 
         public async Task<ActionResult> Dashboard()
-        {
-            TransactionModel bitcoin = await Hitbtc.ShowCrypto("BTC", "USDT");
-            TransactionModel etherium = await Hitbtc.ShowCrypto("ETH", "USDT");
-            TransactionModel solana = await Hitbtc.ShowCrypto("SOL", "USDT");
-            TransactionModel cardano = await Hitbtc.ShowCrypto("ADA", "USDT");
-            TransactionModel xrp = await Hitbtc.ShowCrypto("XRP", "USDT");
+        { 
+            //TransactionModel bitcoin = await Hitbtc.ShowCrypto("BTC", "USDT");
+            //TransactionModel etherium = await Hitbtc.ShowCrypto("ETH", "USDT");
+            //TransactionModel solana = await Hitbtc.ShowCrypto("SOL", "USDT");
+            //TransactionModel cardano = await Hitbtc.ShowCrypto("ADA", "USDT");
+            //TransactionModel xrp = await Hitbtc.ShowCrypto("XRP", "USDT");
 
-            List<string> prices = new List<string>();
-            prices.Add(bitcoin.Price);
-            prices.Add(etherium.Price);
-            prices.Add(solana.Price);
-            prices.Add(cardano.Price);
-            prices.Add(xrp.Price);
+            //List<string> prices = new List<string>();
+            //prices.Add(bitcoin.Price);
+            //prices.Add(etherium.Price);
+            //prices.Add(solana.Price);
+            //prices.Add(cardano.Price);
+            //prices.Add(xrp.Price);
 
             //Currency List
             List<SelectListItem> itemsFiat = new List<SelectListItem>();
@@ -90,16 +78,66 @@ namespace CryptoBalance.Controllers
             itemsCrypto.Add(new SelectListItem { Text = "ADA", Value = "ADA" });
             itemsCrypto.Add(new SelectListItem { Text = "SOL", Value = "SOL" });
             itemsCrypto.Add(new SelectListItem { Text = "XRP", Value = "XRP" });
-
             ViewBag.CryptoCurrencies = itemsCrypto;
 
-            ViewBag.btc = prices[0];
-            ViewBag.eth = prices[1];
-            ViewBag.sol = prices[2];
-            ViewBag.ada = prices[3];
-            ViewBag.xrp = prices[4];
+            //Loading crypto coins table
+            Provider provider = new Provider();
+            await provider.LoadDataAsync(10);
+
+            List<CryptoCoin> listOfCoins = provider.ListOfCoins;
+
+            ViewBag.listOfCoins = listOfCoins;
+
+            HttpCookie cookie = Request.Cookies["AuthCookie"];
+            var getTransactions = from tr in db.transactions
+                                  where tr.username == cookie.Value
+                                  select tr;
+
+            if (getTransactions.ToList().Any())
+            {
+            
+                ViewBag.transactions = getTransactions.ToList();
+
+            }
+            else {
+
+                ViewBag.transactions = null;
+            }
+
+            
+            
+            //calculate balance
+            double sumBTC = 0;
+            double sumFiat = 0;
+
+            foreach (var item in getTransactions)
+            {
+                sumBTC += Convert.ToDouble(item.cryto_total);
+                sumFiat += Convert.ToDouble(item.amount);
+            }
+
+            //BitCoin ID = 90
+            var CoinBTC = listOfCoins.Find(coin => coin.Id == 90);
+
+            if (sumFiat > 0)
+            {
+                double balance = sumBTC * CoinBTC.CurrentPrice;
+                double rate = ((balance - sumFiat) / (sumFiat)) * 100;
+
+                ViewBag.rate = Math.Round(rate, 2);
+                ViewBag.balance = Math.Round(balance, 2);
+            }
+            else {
+
+                ViewBag.rate = 0;
+                ViewBag.balance = 0;
+
+            }
+
 
             return View();
+
+
         }
 
     }

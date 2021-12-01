@@ -110,7 +110,7 @@ namespace CryptoBalance.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "transaction_id,crypto_coin,market_price,amount")] transaction transaction)
+        public ActionResult Create([Bind(Include = "crypto_coin,market_price,amount")] transaction transaction)
         {
             HttpCookie cookie = Request.Cookies["AuthCookie"];
             if (ModelState.IsValid)
@@ -118,14 +118,19 @@ namespace CryptoBalance.Controllers
                 transaction.username = cookie.Value;
                 Double crypto_total = (Convert.ToDouble(transaction.amount) / Convert.ToDouble(transaction.market_price));
                 transaction.cryto_total = Math.Round(crypto_total, 4);
+
+                Guid myuuid = Guid.NewGuid();
+                string myuuidAsString = myuuid.ToString();
+                transaction.transaction_id = myuuidAsString;
+
                 db.transactions.Add(transaction);
                 db.SaveChanges();
                 //return View(transaction);
-                return RedirectToAction("Index", "transactions", transaction);
+                return RedirectToAction("Dashboard", "Home");
             }
 
             //return View(transaction);
-            return RedirectToAction("Index", "transactions", transaction);
+            return RedirectToAction("Dashboard", "Home");
         }
 
         // GET: transactions/Edit/5

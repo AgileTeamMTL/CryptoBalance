@@ -158,7 +158,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\CryptoCoin.cs" />
     <Compile Include="Models\Demo.cs" />
+    <Compile Include="Models\Providers\Provider.cs" />
     <Compile Include="Models\Providers\Hitbtc.cs" />
     <Compile Include="Models\TransactionModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -51,22 +51,6 @@
                 </td>
             </tr>
         }
-
-        @{
-            Double sumBTC = 0;
-            Double sumFiat = 0;
-
-            foreach (var item in Model)
-            {
-                sumBTC += Convert.ToDouble(item.cryto_total);
-                sumFiat += Convert.ToDouble(item.amount);
-            }
-            TempData["totalBTC"] = sumBTC;
-            TempData["totalFiat"] = sumFiat;
-            TempData.Keep();
-
-        }
-
     </table>
 
     <hr />
