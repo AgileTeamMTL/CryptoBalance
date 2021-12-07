@@ -94,6 +94,7 @@ namespace CryptoBalance.Controllers
         public ActionResult Create([Bind(Include = "crypto_coin,market_price,amount")] transaction transaction)
         {
             HttpCookie cookie = Request.Cookies["AuthCookie"];
+
             if (ModelState.IsValid)
             {
                 transaction.username = cookie.Value;
@@ -106,11 +107,18 @@ namespace CryptoBalance.Controllers
 
                 db.transactions.Add(transaction);
                 db.SaveChanges();
-                //return View(transaction);
+
+                TempData["message"] = "";
+                TempData.Keep();
+
                 return RedirectToAction("Index", "Home");
             }
+            else {
 
-            //return View(transaction);
+                TempData["message"] = "Incorrect input, try again";
+                TempData.Keep();
+            }
+
             return RedirectToAction("Index", "Home");
         }
 

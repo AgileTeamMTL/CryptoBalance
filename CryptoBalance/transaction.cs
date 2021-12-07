@@ -11,13 +11,22 @@ namespace CryptoBalance
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class transaction
     {
+        [StringLength(50, MinimumLength = 3)]
         public string username { get; set; }
         public string transaction_id { get; set; }
+        
         public string crypto_coin { get; set; }
+        [Range(1, 100000)]
+        [DataType(DataType.Currency)]
+        [Required(ErrorMessage = "*Market Price is required")]
         public double market_price { get; set; }
+        [Range(1, 100000)]
+        [DataType(DataType.Currency)]
+        [Required(ErrorMessage = "*Amount is required")]
         public double amount { get; set; }
         public double cryto_total { get; set; }
     }

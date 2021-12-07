@@ -38,6 +38,7 @@
                     @Html.EditorFor(model => model.market_price, new { htmlAttributes = new { @class = "form-control w-50 text-center" } })
                     @Html.ValidationMessageFor(model => model.market_price, "", new { @class = "text-danger" })
                     <br />
+                    <p class="text-danger">@TempData["message"]</p>
                     <input type="submit" value="Add Transaction" class="btn btn-primary w-100 rounded-pill mt-4" />
                 </div>
             }

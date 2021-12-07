@@ -74,11 +74,10 @@ namespace CryptoBalance.Controllers
             {
                 db.users.Add(user);
                 db.SaveChanges();
-                return Redirect("/Users/SignIn");
-                
+                return RedirectToAction("SignIn","Users");
             }
-            return View();
-            
+
+            return View(user);
         }
 
         // GET: users/Edit/5
@@ -109,8 +108,9 @@ namespace CryptoBalance.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "username,password,first_name,last_name,email,phone,city,province,country,date_of_birth,creation_date,modification_date")] user user)
+        public ActionResult Edit([Bind(Include = "username,password,first_name,last_name,email,phone,city,province,country,date_of_birth,creation_date")] user user)
         {
+            
             HttpCookie cookie = Request.Cookies["AuthCookie"];
             if (cookie == null || !cookie.Value.Equals("admin"))
             {
@@ -118,6 +118,8 @@ namespace CryptoBalance.Controllers
                 return RedirectToAction("SignIn", "users");
 
             }
+
+            user.modification_date = DateTime.Now;
 
             if (ModelState.IsValid)
             {
@@ -221,7 +223,7 @@ namespace CryptoBalance.Controllers
                     ViewBag.salut = ("Hello " + fc["Username"] + ", welcome back!!");
                     cookie.Path = Request.ApplicationPath;
                     Response.Cookies.Add(cookie);
-
+                    ViewBag.message = "";
                     return Redirect("/Home/Index");
                 }
                 else

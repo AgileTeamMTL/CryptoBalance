@@ -116,7 +116,7 @@ namespace CryptoBalance.Controllers
 
             }
 
-            int pageSize = 20;
+            int pageSize = 10;
             int pageNumber = (page ?? 1);
 
             Provider provider = new Provider();

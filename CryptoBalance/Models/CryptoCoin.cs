@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
@@ -7,12 +8,12 @@ namespace CryptoBalance.Models
 {
     public class CryptoCoin
     {
-
         public string Name { get; set; }
-
         public int Id { get; set; }
         public int Rank { get; set; }
         public string Symbol { get; set; }
+        
+        [DataType(DataType.Currency)]
         public double CurrentPrice { get; set; }
         public double Change24h { get; set; }
 

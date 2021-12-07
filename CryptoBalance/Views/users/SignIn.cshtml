@@ -17,6 +17,7 @@
                 <div class="mb-3 ms-5">
                     @Html.Password("Password", null, new { @class = "form-control w-75 m-25", placeholder = "Password" })
                 </div>
+                <p class="text-danger m-auto w-75">@ViewBag.message</p>
                 <br />
                 <div class="text-center p-2">
                     <input type="submit" value="Login" class="btn btn-primary w-100" formaction="/users/SignIn" />
