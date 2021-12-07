@@ -138,8 +138,8 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\transactionsController.cs" />
-    <Compile Include="Controllers\usersController.cs" />
+    <Compile Include="Controllers\TransactionsController.cs" />
+    <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="db_model.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -159,10 +159,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\CryptoCoin.cs" />
-    <Compile Include="Models\Demo.cs" />
     <Compile Include="Models\Providers\Provider.cs" />
-    <Compile Include="Models\Providers\Hitbtc.cs" />
-    <Compile Include="Models\TransactionModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="transaction.cs">
       <DependentUpon>db_model.tt</DependentUpon>
@@ -268,20 +265,18 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
+    <Content Include="Views\Users\Create.cshtml" />
+    <Content Include="Views\Users\Delete.cshtml" />
+    <Content Include="Views\Users\Details.cshtml" />
+    <Content Include="Views\Users\Edit.cshtml" />
+    <Content Include="Views\Users\Index.cshtml" />
+    <Content Include="Views\Users\SignIn.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\users\Create.cshtml" />
-    <Content Include="Views\users\Delete.cshtml" />
-    <Content Include="Views\users\Details.cshtml" />
-    <Content Include="Views\users\Edit.cshtml" />
-    <Content Include="Views\users\Index.cshtml" />
-    <Content Include="Views\users\SignIn.cshtml" />
-    <Content Include="Views\Home\Dashboard.cshtml" />
     <Content Include="Views\Home\AllCoins.cshtml" />
-    <Content Include="Views\transactions\Create.cshtml" />
-    <Content Include="Views\transactions\Delete.cshtml" />
-    <Content Include="Views\transactions\Details.cshtml" />
-    <Content Include="Views\transactions\Edit.cshtml" />
-    <Content Include="Views\transactions\Index.cshtml" />
+    <Content Include="Views\Transactions\Create.cshtml" />
+    <Content Include="Views\Transactions\Delete.cshtml" />
+    <Content Include="Views\Transactions\Edit.cshtml" />
+    <Content Include="Views\Transactions\Index.cshtml" />
     <Content Include="Views\Shared\_PartialNavBar.cshtml" />
   </ItemGroup>
   <ItemGroup>

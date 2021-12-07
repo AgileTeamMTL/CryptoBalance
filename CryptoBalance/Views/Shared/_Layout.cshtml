@@ -14,8 +14,7 @@
             if (cookie == null)
             {
 
-                @*<li class="nav-item">@Html.ActionLink("Sign In", "SignIn", "users")</li>
-                <li class="nav-item">@Html.ActionLink("Sign up", "Create", "users")</li>*@
+
             }
             else
             {
@@ -26,11 +25,11 @@
 
         <br />
         @RenderBody()
+        <hr />
+        <footer class="text-center p-5">
+            <p class="fw-bold">&copy; @DateTime.Now.Year - Crypto Balance</p>
+        </footer>
     </div>
-    <hr />
-    <footer class="text-center">
-        <p>&copy; @DateTime.Now.Year - Crypto Coin Balance</p>
-    </footer>
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)

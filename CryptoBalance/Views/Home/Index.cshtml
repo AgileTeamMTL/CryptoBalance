@@ -1,31 +1,163 @@
-﻿@{
-    ViewBag.Title = "Home Page";
+﻿@model CryptoBalance.transaction
+
+@{
+    ViewBag.Title = "Dashboard";
+
+    List<SelectListItem> itemsCrypto = new List<SelectListItem>();
+    itemsCrypto = ViewBag.CryptoCurrencies;
+
+
 }
 
-<div class="jumbotron">
-    <h1>ASP.NET</h1>
-    <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
-    <p><a href="https://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
-</div>
 
 <div class="row">
-    <div class="col-md-4">
-        <h2>Getting started</h2>
-        <p>
-            ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-            enables a clean separation of concerns and gives you full control over markup
-            for enjoyable, agile development.
-        </p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
+    <div class="col-sm-6 p-2 align-middle">
+        <div class="bg-white border border-3 p-4 ">
+            <h2 class="p-2 text-center">Register a New Transaction</h2>
+            <hr />
+            @using (Html.BeginForm("Create", "transactions", FormMethod.Post, new { @class = "row" }))
+            {
+                @Html.AntiForgeryToken()
+
+                <div class="col-sm-6 ps-5">
+                    @Html.Label("From")
+                    <br />
+                    @Html.DropDownList("FiatCurrencies", null, new { @class = "form-control w-50 text-center" })
+                    <br />
+                    @Html.LabelFor(model => model.crypto_coin, "To", new { @class = "pt-3" })
+                    <br />
+                    @Html.DropDownListFor(model => model.crypto_coin, itemsCrypto, new { @class = "form-control w-50 text-center" })
+                    @Html.ValidationMessageFor(model => model.crypto_coin, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-sm-6">
+                    @Html.LabelFor(model => model.amount, "Amount (USD)", htmlAttributes: new { @class = "control-label col-md-2" })
+                    @Html.EditorFor(model => model.amount, new { htmlAttributes = new { @class = "form-control w-50 text-center" } })
+                    @Html.ValidationMessageFor(model => model.amount, "", new { @class = "text-danger" })
+                    <br />
+                    @Html.LabelFor(model => model.market_price, "Market Price (USD)", htmlAttributes: new { @class = "control-label" })
+                    @Html.EditorFor(model => model.market_price, new { htmlAttributes = new { @class = "form-control w-50 text-center" } })
+                    @Html.ValidationMessageFor(model => model.market_price, "", new { @class = "text-danger" })
+                    <br />
+                    <input type="submit" value="Add Transaction" class="btn btn-primary w-100 rounded-pill mt-4" />
+                </div>
+            }
+        </div>
+        <br />
+        <div class="bg-white border border-3 p-4">
+            <h2 class="p-2 text-center">Last 10 Transactions</h2>
+            <hr />
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">Crypto Coin</th>
+                        <th scope="col">Market Price</th>
+                        <th scope="col">Amount</thscope="col">
+                        <th scope="col">Total Coins</thscope="col">
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        if (ViewBag.transactions != null)
+                        {
+                            int nbTransactions;
+
+                            if (ViewBag.transactions.Count > 10)
+                            {
+
+                                nbTransactions = 10;
+
+                            }
+                            else {
+
+                                nbTransactions = ViewBag.transactions.Count;
+                            }
+
+                            for (int i = 0; i < nbTransactions; i++)
+                            { @:<tr>
+                                    @:<td>@ViewBag.transactions[i].crypto_coin </td>
+                                    @:<td>@ViewBag.transactions[i].market_price</td>
+                                    @:<td>$ @ViewBag.transactions[i].amount </td>
+                                    @:<td>@ViewBag.transactions[i].cryto_total</td>
+                                @:</tr>
+                            }
+                        }
+                        else { 
+                        
+                            @:<tr><td colspan="4" class="text-center">There are no transaction</td></tr>
+                        
+                        }
+
+                    }
+                </tbody>
+            </table>
+        </div>
     </div>
-    <div class="col-md-4">
-        <h2>Get more libraries</h2>
-        <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Web Hosting</h2>
-        <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
+    <div class="col-sm-6 p-2 align-middle">
+        <div class="row bg-white border border-3">
+            <div class="col-sm-6">
+                <h2 class="text-start p-3 text-success">Balance</h2>
+            </div>
+            <div class="col-sm-6">
+
+                @{
+
+                    if (ViewBag.rate > 0)
+                    {
+
+                        <h4 class="text-end p-3">@ViewBag.balance USD <span class="text-success">+@ViewBag.rate %</span></h4>
+                    }
+                    else
+                    {
+                        if (ViewBag.rate == 0) { 
+                        
+                                <h4 class="text-end p-3">0.00 USD</h4>
+                        } else { 
+
+                                <h4 class="text-end p-3">@ViewBag.balance USD <span class="text-danger">@ViewBag.rate %</span></h4>
+                        }
+                        
+                    }
+
+                }
+
+            </div>
+        </div>
+        <br />
+        <div class="row bg-white border border-3 p-5">
+            <h2 class="p-2 text-center">Top 10 Crypto Currency</h2>
+            <hr />
+            <table class="table table-striped p-5">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Coin</th>
+                        <th scope="col">Symbol</thscope="col">
+                        <th scope="col">Price</thscope="col">
+                        <th scope="col">%24h</thscope="col">
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        for (int i = 0; i < ViewBag.listOfCoins.Count; i++)
+                        { @:<tr>
+                                @:<th scope="row">@ViewBag.listOfCoins[i].Rank</th>
+                                @:<td>@ViewBag.listOfCoins[i].Name</td>
+                                @:<td>@ViewBag.listOfCoins[i].Symbol</td>
+                                @:<td> $ @ViewBag.listOfCoins[i].CurrentPrice</td>
+                                if (ViewBag.listOfCoins[i].Change24h > 0)
+                                {
+                                    @:<td class="text-success"> % @ViewBag.listOfCoins[i].Change24h</td>
+                                }
+                                else
+                                {
+                                    @:<td class="text-danger"> % @ViewBag.listOfCoins[i].Change24h</td>
+                                }
+
+                            }
+                        @:</tr>
+                    }
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>

@@ -13,19 +13,35 @@ using CryptoBalance.Models.Providers;
 
 namespace CryptoBalance.Controllers
 {
-    public class usersController : Controller
+    public class UsersController : Controller
     {
         private db_cryptoBalanceEntities1 db = new db_cryptoBalanceEntities1();
 
         // GET: users
         public ActionResult Index()
         {
+            HttpCookie cookie = Request.Cookies["AuthCookie"];
+            if (cookie == null || !cookie.Value.Equals("admin"))
+            {
+
+                return RedirectToAction("SignIn", "users");
+
+            }
+
             return View(db.users.ToList());
         }
 
         // GET: users/Details/5
         public ActionResult Details(string id)
         {
+            HttpCookie cookie = Request.Cookies["AuthCookie"];
+            if (cookie == null || !cookie.Value.Equals("admin"))
+            {
+
+                return RedirectToAction("SignIn", "users");
+
+            }
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -53,20 +69,29 @@ namespace CryptoBalance.Controllers
         {
             user.creation_date = DateTime.Now;
             user.modification_date = DateTime.Now;
+
             if (ModelState.IsValid)
             {
                 db.users.Add(user);
                 db.SaveChanges();
-                return Redirect("/Home/Index");
-                //return RedirectToAction("Index");
+                return Redirect("/Users/SignIn");
+                
             }
-            return Redirect("/Users/SignIn");
-            //return View(user);
+            return View();
+            
         }
 
         // GET: users/Edit/5
         public ActionResult Edit(string id)
         {
+            HttpCookie cookie = Request.Cookies["AuthCookie"];
+            if (cookie == null || !cookie.Value.Equals("admin"))
+            {
+
+                return RedirectToAction("SignIn", "users");
+
+            }
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -86,6 +111,14 @@ namespace CryptoBalance.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "username,password,first_name,last_name,email,phone,city,province,country,date_of_birth,creation_date,modification_date")] user user)
         {
+            HttpCookie cookie = Request.Cookies["AuthCookie"];
+            if (cookie == null || !cookie.Value.Equals("admin"))
+            {
+
+                return RedirectToAction("SignIn", "users");
+
+            }
+
             if (ModelState.IsValid)
             {
                 db.Entry(user).State = EntityState.Modified;
@@ -98,6 +131,14 @@ namespace CryptoBalance.Controllers
         // GET: users/Delete/5
         public ActionResult Delete(string id)
         {
+            HttpCookie cookie = Request.Cookies["AuthCookie"];
+            if (cookie == null || !cookie.Value.Equals("admin"))
+            {
+
+                return RedirectToAction("SignIn", "users");
+
+            }
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -115,6 +156,14 @@ namespace CryptoBalance.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(string id)
         {
+            HttpCookie cookie = Request.Cookies["AuthCookie"];
+            if (cookie == null || !cookie.Value.Equals("admin"))
+            {
+
+                return RedirectToAction("SignIn", "users");
+
+            }
+
             user user = db.users.Find(id);
             db.users.Remove(user);
             db.SaveChanges();
@@ -139,7 +188,7 @@ namespace CryptoBalance.Controllers
             }
             else
             {
-                return Redirect("Home/Dashboard");
+                return Redirect("Home/Index");
             }
         }
 
@@ -173,7 +222,7 @@ namespace CryptoBalance.Controllers
                     cookie.Path = Request.ApplicationPath;
                     Response.Cookies.Add(cookie);
 
-                    return Redirect("/Home/Dashboard");
+                    return Redirect("/Home/Index");
                 }
                 else
                 {
@@ -194,7 +243,7 @@ namespace CryptoBalance.Controllers
                 Response.Cookies.Add(cookie);
             }
             //Check here
-            return Redirect("/users/SignIn");
+            return Redirect("/Users/SignIn");
         }
         
     }

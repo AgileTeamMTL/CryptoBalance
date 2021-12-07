@@ -11,13 +11,21 @@ using PagedList;
 
 namespace CryptoBalance.Controllers
 {
-    public class transactionsController : Controller
+    public class TransactionsController : Controller
     {
         private db_cryptoBalanceEntities1 db = new db_cryptoBalanceEntities1();
 
         // GET: transactions
         public ActionResult Index(string sortOrder, string searchString, string currentFilter, int? page)
         {
+            HttpCookie cookie = Request.Cookies["AuthCookie"];
+            if (cookie == null)
+            {
+
+                return RedirectToAction("SignIn", "users");
+
+            }
+
             ViewBag.currentSort = sortOrder;
             ViewBag.NameSortParam = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
             ViewBag.MarketPriceParam = sortOrder == "Market Price" ? "marketPrice_desc" : "Market Price";
@@ -34,7 +42,6 @@ namespace CryptoBalance.Controllers
             }
             ViewBag.CurrentFilter = searchString;
             
-            HttpCookie cookie = Request.Cookies["AuthCookie"];
             var getTransactions = from tr in db.transactions
                                     where tr.username == cookie.Value
                                     select tr;
@@ -72,38 +79,12 @@ namespace CryptoBalance.Controllers
             }
             int pageSize = 5;
             int pageNumber = (page ?? 1);
-            //return View(logs.ToList());
-            //getTransactions.ToPagedList(pageNumber, pageSize);
-            //return RedirectToAction("Dashboard","Home", getTransactions.ToPagedList(pageNumber, pageSize));
+
             return View(getTransactions.ToPagedList(pageNumber, pageSize));
-            //return View(db.logs.ToList());
+
         }
 
-        //private ActionResult View(object p)
-        //{
-        //    throw new NotImplementedException();
-        //}
 
-        // GET: transactions/Details/5
-        public ActionResult Details(string id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            transaction transaction = db.transactions.Find(id);
-            if (transaction == null)
-            {
-                return HttpNotFound();
-            }
-            return View(transaction);
-        }
-
-        // GET: transactions/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
 
         // POST: transactions/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
@@ -126,16 +107,24 @@ namespace CryptoBalance.Controllers
                 db.transactions.Add(transaction);
                 db.SaveChanges();
                 //return View(transaction);
-                return RedirectToAction("Dashboard", "Home");
+                return RedirectToAction("Index", "Home");
             }
 
             //return View(transaction);
-            return RedirectToAction("Dashboard", "Home");
+            return RedirectToAction("Index", "Home");
         }
 
         // GET: transactions/Edit/5
         public ActionResult Edit(string id)
         {
+            HttpCookie cookie = Request.Cookies["AuthCookie"];
+            if (cookie == null)
+            {
+
+                return RedirectToAction("SignIn", "users");
+
+            }
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -153,20 +142,41 @@ namespace CryptoBalance.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "username,transaction_id,crypto_coin,market_price,amount,cryto_total")] transaction transaction)
+        public ActionResult Edit([Bind(Include = "transaction_id,crypto_coin,market_price,amount")] transaction transaction)
         {
+            HttpCookie cookie = Request.Cookies["AuthCookie"];
+            if (cookie == null)
+            {
+
+                return RedirectToAction("SignIn", "users");
+
+            }
+
+            transaction.username = cookie.Value;
+            Double crypto_total = (Convert.ToDouble(transaction.amount) / Convert.ToDouble(transaction.market_price));
+            transaction.cryto_total = Math.Round(crypto_total, 4);
+
             if (ModelState.IsValid)
             {
                 db.Entry(transaction).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
+
             return View(transaction);
         }
 
         // GET: transactions/Delete/5
         public ActionResult Delete(string id)
         {
+            HttpCookie cookie = Request.Cookies["AuthCookie"];
+            if (cookie == null)
+            {
+
+                return RedirectToAction("SignIn", "users");
+
+            }
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -184,6 +194,14 @@ namespace CryptoBalance.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(string id)
         {
+            HttpCookie cookie = Request.Cookies["AuthCookie"];
+            if (cookie == null)
+            {
+
+                return RedirectToAction("SignIn", "users");
+
+            }
+
             transaction transaction = db.transactions.Find(id);
             db.transactions.Remove(transaction);
             db.SaveChanges();

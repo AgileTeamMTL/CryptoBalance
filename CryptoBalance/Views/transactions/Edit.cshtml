@@ -4,66 +4,44 @@
     ViewBag.Title = "Edit";
 }
 
-<h2>Edit</h2>
 
-@using (Html.BeginForm())
-{
-    @Html.AntiForgeryToken()
-    
-    <div class="form-horizontal">
-        <h4>transaction</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="form-group">
-            @Html.LabelFor(model => model.username, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.username, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.username, "", new { @class = "text-danger" })
-            </div>
-        </div>
+<div class="bg-white border border-3 p-4 text-center">
+    <h3>Edit Transaction</h3>
+    <hr />
+    <div class="w-50 m-auto col-12">
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            @Html.HiddenFor(model => model.transaction_id)
 
-        @Html.HiddenFor(model => model.transaction_id)
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.crypto_coin, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.crypto_coin, new { htmlAttributes = new { @class = "form-control" } })
+            <div class="row">
+                Crypto Coin
+                @Html.EditorFor(model => model.crypto_coin, new { htmlAttributes = new { @class = "form-control col-6" } })
                 @Html.ValidationMessageFor(model => model.crypto_coin, "", new { @class = "text-danger" })
             </div>
-        </div>
+            <div class="row">
+                Market Price (USD)
+                @Html.EditorFor(model => model.market_price, new { htmlAttributes = new { @class = "form-control col-6" } })
+                @Html.ValidationMessageFor(model => model.market_price, "", new { @class = "text-danger " })
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.market_price, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.market_price, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.market_price, "", new { @class = "text-danger" })
             </div>
-        </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.amount, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.amount, new { htmlAttributes = new { @class = "form-control" } })
+            <div class="row">
+                Amount (USD)
+                @Html.EditorFor(model => model.amount, new { htmlAttributes = new { @class = "form-control col-6" } })
                 @Html.ValidationMessageFor(model => model.amount, "", new { @class = "text-danger" })
-            </div>
-        </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.cryto_total, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.cryto_total, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.cryto_total, "", new { @class = "text-danger" })
             </div>
-        </div>
+            <hr />
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Save" class="btn btn-defaut  border border-1  me-3" />
+                    @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-default  border border-1 " })
+                </div>
+            </div>
+        }
 
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
-            </div>
-        </div>
     </div>
-}
 
-<div>
-    @Html.ActionLink("Back to List", "Index")
 </div>

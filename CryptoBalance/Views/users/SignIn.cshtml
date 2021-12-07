@@ -1,29 +1,6 @@
-﻿@*@{
-        ViewBag.Title = "SignIn";
-    }
-
-    <h2>SignIn</h2>
-
-    <form action="/" method="post">
-        <div class="form-group">
-            @Html.Label("Username")
-            @Html.TextBox("Username", null, new { @class = "form-control" })
-        </div>
-        <div class="form-group">
-            @Html.Label("Password")
-            @Html.Password("Password", null, new { @class = "form-control" })
-        </div>
-        <div class="checkbox">
-            <label>@Html.CheckBox("RememberMe") Remember Me</label>
-        </div>
-        <input type="submit" name="login" value="Sign In" class="btn btn-success" formaction="/users/SignIn" />
-    </form>*@
-
-@{
+﻿@{
     ViewBag.Title = "SignIn";
 }
-
-
 
 <br />
 <div class="row">
@@ -41,13 +18,13 @@
                     @Html.Password("Password", null, new { @class = "form-control w-75 m-25", placeholder = "Password" })
                 </div>
                 <br />
-                <div class="text-center">
+                <div class="text-center p-2">
                     <input type="submit" value="Login" class="btn btn-primary w-100" formaction="/users/SignIn" />
                     <br />
-                    <p><a href="#">Forgot Password?</a></p>
+                    <p class="m-2"><a href="#WeAreWorkingOnThis:)">Forgot Password?</a></p>
                 </div>
                 <hr />
-                <div class="text-center">
+                <div class="text-center p-2">
                     @Html.ActionLink("Create New Account", "Create", "users", null, new { @class = "btn btn-primary w-75 bg-success text-decoration-none" })
                 </div>
             </form>

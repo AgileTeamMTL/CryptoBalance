@@ -3,91 +3,84 @@
 @{
     ViewBag.Title = "Index";
 }
+<div class="bg-white border border-3 p-4 text-center">
+    <h2 class="p-2 text-center">List of Users</h2>
+    <hr />
+    <table class="table table-striped p-5">
+        <tr>
+            <th>
+                First Name
+            </th>
+            <th>
+                Lastname
+            </th>
+            <th>
+                Email
+            </th>
+            <th>
+                Phone
+            </th>
+            <th>
+                City
+            </th>
+            <th>
+                Province
+            </th>
+            <th>
+                Country
+            </th>
+            <th>
+                BirthDate
+            </th>
+            <th>
+                Creation Date
+            </th>
+            <th>
+                Modification Date
+            </th>
+            <th></th>
+        </tr>
 
-<h2>Index</h2>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.first_name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.last_name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.email)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.phone)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.city)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.province)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.country)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.date_of_birth)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.creation_date)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.modification_date)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.username }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.username }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.username })
+                </td>
+            </tr>
+        }
+    </table>
+</div>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.password)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.first_name)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.last_name)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.email)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.phone)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.city)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.province)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.country)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.date_of_birth)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.creation_date)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.modification_date)
-        </th>
-        <th></th>
-    </tr>
-
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.password)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.first_name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.last_name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.email)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.phone)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.city)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.province)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.country)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.date_of_birth)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.creation_date)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.modification_date)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.username }) |
-            @Html.ActionLink("Details", "Details", new { id=item.username }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.username })
-        </td>
-    </tr>
-}
-
-</table>

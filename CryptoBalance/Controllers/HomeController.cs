@@ -12,6 +12,7 @@ using CryptoBalance;
 using CryptoBalance.Models;
 using CryptoBalance.Models.Providers;
 using Newtonsoft.Json.Linq;
+using PagedList;
 
 namespace CryptoBalance.Controllers
 {
@@ -20,48 +21,16 @@ namespace CryptoBalance.Controllers
 
         private db_cryptoBalanceEntities1 db = new db_cryptoBalanceEntities1();
 
-        public ActionResult Index()
+
+        public async Task<ActionResult> Index()
         {
-            return View();
-        }
-        public async Task<ActionResult> AllCoins()
-        {
-            Provider provider = new Provider();
-            await provider.LoadDataAsync(100);
+            HttpCookie cookie = Request.Cookies["AuthCookie"];
+            if (cookie == null)
+            {
 
-            List<CryptoCoin> listOfCoins = provider.ListOfCoins;
+                return RedirectToAction("SignIn", "users");
 
-            return View(listOfCoins);
-        }
-
-        public ActionResult About()
-        {
-            ViewBag.Message = "Your application description page.";
-
-            return View();
-        }
-
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
-
-            return View();
-        }
-
-        public async Task<ActionResult> Dashboard()
-        { 
-            //TransactionModel bitcoin = await Hitbtc.ShowCrypto("BTC", "USDT");
-            //TransactionModel etherium = await Hitbtc.ShowCrypto("ETH", "USDT");
-            //TransactionModel solana = await Hitbtc.ShowCrypto("SOL", "USDT");
-            //TransactionModel cardano = await Hitbtc.ShowCrypto("ADA", "USDT");
-            //TransactionModel xrp = await Hitbtc.ShowCrypto("XRP", "USDT");
-
-            //List<string> prices = new List<string>();
-            //prices.Add(bitcoin.Price);
-            //prices.Add(etherium.Price);
-            //prices.Add(solana.Price);
-            //prices.Add(cardano.Price);
-            //prices.Add(xrp.Price);
+            }
 
             //Currency List
             List<SelectListItem> itemsFiat = new List<SelectListItem>();
@@ -88,14 +57,14 @@ namespace CryptoBalance.Controllers
 
             ViewBag.listOfCoins = listOfCoins;
 
-            HttpCookie cookie = Request.Cookies["AuthCookie"];
+            
             var getTransactions = from tr in db.transactions
                                   where tr.username == cookie.Value
                                   select tr;
 
             if (getTransactions.ToList().Any())
             {
-            
+
                 ViewBag.transactions = getTransactions.ToList();
 
             }
@@ -136,8 +105,50 @@ namespace CryptoBalance.Controllers
 
 
             return View();
+        }
+        public async Task<ActionResult> AllCoins(string searchString, int? page)
+        {
+            HttpCookie cookie = Request.Cookies["AuthCookie"];
+            if (cookie == null)
+            {
+
+                return RedirectToAction("SignIn", "users");
+
+            }
+
+            int pageSize = 20;
+            int pageNumber = (page ?? 1);
+
+            Provider provider = new Provider();
+            await provider.LoadDataAsync(100);
+
+            var listOfCoins = provider.ListOfCoins;
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                page = 1;
+                searchString = char.ToUpper(searchString[0]) + searchString.Substring(1);
+                var searchedCoins = listOfCoins.Where(coin => coin.Name.Contains(searchString));
+                return View(searchedCoins.ToPagedList(pageNumber, pageSize));
+            }
 
 
+            return View(listOfCoins.ToPagedList(pageNumber, pageSize));
+        }
+
+
+        public ActionResult About()
+        {
+            ViewBag.Message = "Your application description page.";
+
+            return View();
+        }
+
+        public ActionResult Contact()
+        {
+            ViewBag.Message = "Your contact page.";
+
+            return View();
         }
 
     }

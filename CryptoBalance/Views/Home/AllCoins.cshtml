@@ -1,12 +1,24 @@
-﻿
+﻿@model PagedList.IPagedList<CryptoBalance.Models.CryptoCoin>
+@using PagedList.Mvc;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
 @{
     ViewBag.Title = "AllCoins";
 
 }
 
 <div class="bg-white border border-3 p-4 ">
-    <h2 class="p-2 text-center">Market</h2>
+    <h2 class="p-2 text-center">Crypto Market</h2>
     <hr />
+    <div class="text-end">
+        @using (Html.BeginForm("AllCoins", "Home", FormMethod.Get))
+        {
+            <p>
+                @Html.TextBox("SearchString", ViewBag.CurrentFilter as string, new { @class = "form-control d-inline" })
+                <input type="submit" value="Search" class="btn btn-dark rounded-pill d-inline p-2" />
+            </p>
+        }
+    </div>
     <table class="table table-striped p-5">
         <thead>
             <tr>
@@ -19,19 +31,20 @@
         </thead>
         <tbody>
             @{
-                for (int i = 0; i < Model.Count; i++)
+
+                foreach (var item in Model)
                 { @:<tr>
-                        @:<th scope="row">@Model[i].Rank</th>
-                        @:<td>@Model[i].Name</td>
-                        @:<td>@Model[i].Symbol</td>
-                        @:<td> $ @Model[i].CurrentPrice</td>
-                        if (Model[i].Change24h > 0)
+                        @:<th scope="row">@item.Rank</th>
+                        @:<td>@item.Name</td>
+                        @:<td>@item.Symbol</td>
+                        @:<td> $ @item.CurrentPrice</td>
+                        if (item.Change24h > 0)
                         {
-                            @:<td class="text-success"> % @Model[i].Change24h</td>
+                            @:<td class="text-success"> % @item.Change24h</td>
                         }
                         else
                         {
-                            @:<td class="text-danger"> % @Model[i].Change24h</td>
+                            @:<td class="text-danger"> % @item.Change24h</td>
                         }
 
                     }
@@ -39,5 +52,10 @@
             }
         </tbody>
     </table>
+    <hr />
+    <div class="text-center">
+        Page @(Model.PageCount <Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+        @Html.PagedListPager(Model, page => Url.Action("AllCoins", new {page}))
+    </div>
 </div>
 
